@@ -1,3 +1,4 @@
+import {Link, Route, Routes } from "react-router-dom";
 import About from "./About";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -11,14 +12,30 @@ import PostPage from "./PostPage";
 function App() {
   return (
     <div className="App">
-      <Header/>
+      
+      <nav>
+        <ul>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/about">About</Link></li>
+          <li><Link to="/newpost">NewPost</Link></li>
+          <li><Link to="/postpage">PostPage</Link></li>
+        </ul>
+      </nav>
+        <Routes>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/about" element={<About/>}/>
+          <Route path="/newpost" element={<NewPost/>}/>
+          <Route path="/postpage" element={<PostPage/>}/>
+        </Routes>
+      {
+      /* <Header/>
       <Nav/>
       <Home/>
       <NewPost/>
       <PostPage/>
       <About/>
       <Missing/>
-      <Footer/>
+      <Footer/> */}
       
     </div>
   );

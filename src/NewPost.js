@@ -2,7 +2,7 @@ import React from 'react'
 
 const NewPost = () => {
   return (
-    <div>NewPost</div>
+    <main>Nwpost</main>
   )
 }
 
