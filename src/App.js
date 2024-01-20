@@ -9,20 +9,23 @@ import NewPost from "./NewPost";
 import PostPage from "./PostPage";
 import Post from "./Post";
 import PostLayout from "./PostLayout";
+import { useState } from "react";
 
 
 function App() {
+  const {search,setSearch}= useState('')
+  
   return (
     <div className="App">
       
-      <nav>
+      {/* <nav>
         <ul>
           <li><Link to="/">Home</Link></li>
           <li><Link to="/about">About</Link></li>
          
           <li><Link to="/postpage">PostPage</Link></li>
         </ul>
-      </nav>
+      </nav> */}
       
         {/*meka mehema danawata wada apita nested use karanna pulwan
          <Routes>
@@ -33,7 +36,7 @@ function App() {
           <Route path="/postpage/:id" element={<Post/>}/>
           <Route path="*" element={<Missing/>}/>
         </Routes> */}
-        <Routes>
+        {/* <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/about" element={<About/>}/>
           <Route path="/postpage" element={<PostLayout/>}>
@@ -42,16 +45,19 @@ function App() {
             <Route path=":id" element={<Post/>}/>
           </Route>
           <Route path="*" element={<Missing/>}/>
-        </Routes>
-      {
-      /* <Header/>
-      <Nav/>
+        </Routes> */}
+      
+      <Header title="Mairu social meadia"/>
+      <Nav 
+        search={search}
+        setSearch={setSearch}
+      />
       <Home/>
       <NewPost/>
       <PostPage/>
       <About/>
       <Missing/>
-      <Footer/> */}
+      <Footer/> 
       
     </div>
   );
