@@ -13,7 +13,28 @@ import { useState } from "react";
 
 
 function App() {
+  const {posts,setPosts}= useState([
+    {
+      id:1,
+      title:"My first post",
+      datetime:"july 01,2021 11:17:36",
+      body:"Made a video about Tesla"
+    },
+    {
+      id:2,
+      title:"My secound post",
+      datetime:"july 01,2021 11:17:36",
+      body:"watching Ben 10"
+    },
+    {
+      id:3,
+      title:"My third post",
+      datetime:"july 01,2021 11:17:36",
+      body:"planting "
+    }
+  ])
   const {search,setSearch}= useState('')
+  const [searchResults,setSearchResults]=useState([])
   
   return (
     <div className="App">
