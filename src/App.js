@@ -70,10 +70,10 @@ function App() {
 
   const handleEdit = async (id)=>{
     const datetime = format(new Date(),'MMMM dd,yyyy pp');
-    const newPost ={id,title:editTitle,datetime,body: editBody};
+    const updatePost ={id,title:editTitle,datetime,body: editBody};
     try{
       const response =await api.put(`/posts/${id}`,updatePost)
-      setPosts(posts.map(post.id===id ? {... response.data}: post));
+      setPosts(posts.map(Post.id===id ? {... response.data}: Post));
       setEditTitle('');
       setEditBody('');
       navigate('/')
