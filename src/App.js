@@ -19,6 +19,8 @@ function App() {
   const [searchResults,setSearchResults]=useState([])
   const [postTitle,setPostTitle]=useState('');
   const [postBody,setPostBody]=useState('');
+  const [editTitle,setEditTitle]=useState('');
+  const [editBody,setEditBody]=useState('');
   const navigate = useNavigate()
 
   useEffect(()=>{
@@ -69,6 +71,16 @@ function App() {
   const handleEdit = async (id)=>{
     const datetime = format(new Date(),'MMMM dd,yyyy pp');
     const newPost ={id,title:editTitle,datetime,body: editBody};
+    try{
+      const response =await api.put(`/posts/${id}`,updatePost)
+      setPosts(posts.map(post.id===id ? {... response.data}: post));
+      setEditTitle('');
+      setEditBody('');
+      navigate('/')
+
+    }catch(err){
+      console.log(`Error :${err.message}`);
+    }
   }
   
   const handleDelete =async(id)=> {
