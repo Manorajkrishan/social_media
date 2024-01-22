@@ -11,34 +11,36 @@ import Post from "./Post";
 import PostLayout from "./PostLayout";
 import { useEffect, useState } from "react";
 import {format} from "date-fns"
-
+import api from "./api/pt"
 
 function App() {
-  const [posts,setPosts]= useState([
-    {
-      id:1,
-      title:"My first post",
-      datetime:"july 01,2021 11:17:36",
-      body:"Made a video about Tesla"
-    },
-    {
-      id:2,
-      title:"My secound post",
-      datetime:"july 01,2021 11:17:36",
-      body:"watching Ben 10"
-    },
-    {
-      id:3,
-      title:"My third post",
-      datetime:"july 01,2021 11:17:36",
-      body:"planting "
-    }
-  ])
+  const [posts,setPosts]= useState([])
   const [search,setSearch]= useState('')
   const [searchResults,setSearchResults]=useState([])
   const [postTitle,setPostTitle]=useState('');
   const [postBody,setPostBody]=useState('');
   const navigate = useNavigate()
+
+  useEffect(()=>{
+    const fetchPosts = async()=>{
+      try{
+        const response = await api.get('/posts');
+        setPosts(response.data);
+      }catch(err){
+
+        if(err.response){
+          //Not in the 200 response range
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.Headers);
+
+        }else{
+          console.log(`Error : ${err.message}`);
+        }
+      }
+    }
+    fetchPosts();
+  },[])
 
   useEffect (()=>{
     const filteredResults = posts.filter((post)=>((post.body).toLowerCase().includes(search.toLowerCase())) || ((post.title).toLowerCase()).includes(search.toLowerCase()));
@@ -47,22 +49,38 @@ function App() {
     
   },[posts,search])
 
-  const handleSubmit=(e)=>{
+  const handleSubmit= async(e)=>{
     e.preventDefault();
     const id =posts.length ? posts[posts.length-1].id +1 : 1;
     const datetime = format(new Date(), 'MMMM dd ,yyyy pp');
     const newPost ={id,title:postTitle,datetime,body:postBody};
-    const everyPosts =[...posts,newPost];
+    try{
+    const response = await api.post('/posts',newPost)
+    const everyPosts =[...posts,response.data];
     setPosts(everyPosts);
     setPostTitle('');  
     setPostBody('');
     navigate('/')
+    }catch(err){
+      console.log(`Error : ${err.message}`);
+    }
+  }
+
+  const handleEdit = async (id)=>{
+    const datetime = format(new Date(),'MMMM dd,yyyy pp');
+    const newPost ={id,title:editTitle,datetime,body: editBody};
   }
   
-  const handleDelete =(id)=> {
+  const handleDelete =async(id)=> {
+    try{
+      await api.delete(`posts/${id}`)
     const postsList =posts.filter(post=>post.id !== id);
     setPosts(postsList);
     navigate('/')
+    }catch(err){
+      console.log(`Error :${err.message}`)
+
+    }
 
   }
   
