@@ -12,6 +12,8 @@ import PostLayout from "./PostLayout";
 import { useEffect, useState } from "react";
 import {format} from "date-fns"
 import api from "./api/pt"
+import EditPost from "./EditPost"
+import useWindowSize from "./hooks/useWindowSize";
 
 function App() {
   const [posts,setPosts]= useState([])
@@ -22,6 +24,8 @@ function App() {
   const [editTitle,setEditTitle]=useState('');
   const [editBody,setEditBody]=useState('');
   const navigate = useNavigate()
+  const {width}= useWindowSize()
+
 
   useEffect(()=>{
     const fetchPosts = async()=>{
@@ -128,7 +132,7 @@ function App() {
           <Route path="*" element={<Missing/>}/>
         </Routes> */}
       
-      <Header title="Mairu social meadia"/>
+      <Header title="Mairu social meadia" width={width}/>
       <Nav 
         search={search}
         setSearch={setSearch}
@@ -145,11 +149,21 @@ function App() {
           setPostBody={setPostBody}
         
         />}/>
+         
         <Route path=":id" element={<PostPage posts={posts} 
         handleDelete={handleDelete}/>}/>
+       
         </Route>
          <Route path="about" element={<About/>}/>
         <Route path="*" element={<Missing/>}/>
+        <Route path="/edit/:id" element={<EditPost
+            handleEdit={handleEdit}
+            editBody={editBody}
+            posts={posts}
+            setEditBody={setEditBody}
+            editTitle={editTitle}
+            setEditTitle={setEditTitle}
+         />}/>
         
       </Routes>
       <Footer/> 
